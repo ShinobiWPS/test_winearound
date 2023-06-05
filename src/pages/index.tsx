@@ -1,11 +1,17 @@
+import styles from '@/styles/Home.module.css'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction'
+import FullCalendar from '@fullcalendar/react'
+import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import Image from 'next/image'
-import { Inter } from 'next/font/google'
-import styles from '@/styles/Home.module.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const handleDateClick = (arg: DateClickArg) => {
+    console.log(arg)
+  }
   return (
     <>
       <Head>
@@ -39,14 +45,30 @@ export default function Home() {
           </div>
         </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <FullCalendar
+            plugins={[dayGridPlugin, interactionPlugin]}
+            initialView="dayGridMonth"
+            dateClick={handleDateClick}
+            events={[
+              { title: 'event 1', date: new Date() },
+              { title: 'event 2', date: '2023-06-06' },
+            ]}
+            editable={true}
+            selectable={true}
+            nowIndicator={true}
+            customButtons={{
+              myCustomButton: {
+                text: 'Crea evento',
+                click: () => {
+                  alert('Test button!')
+                },
+              },
+            }}
+            headerToolbar={{
+              left: 'myCustomButton',
+              center: 'title',
+            }}
           />
         </div>
 
