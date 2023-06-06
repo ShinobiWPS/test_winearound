@@ -13,8 +13,17 @@ Dovrai permettere all'utente di spostare gli eventi interagendo con il calendari
 Dovrai permettere all'utente di creare un nuovo evento da aggiungere al calendario (chiamando l'API per persisterlo)
 Dovrei permettere all'utente eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
 
-La persistenza degli eventi del calendario lato server la puoi gestire come preferisci, vale tutto.
-Ogni elemento grafico in interfaccia (calendario escluso) dovrà essere di mui.
+La persistenza degli eventi del calendario lato server la puoi gestire come preferisci, vale tutto.(incluso `fs` per operare su un semplice file su filesystem).
+
+Ogni elemento grafico in interfaccia (calendario escluso) dovrà essere di MUI.
+esempi di cosa potrebbe comparire:
+- quando premi crea evento dovrai decidere il nome dell'evento e la data in cui inserirlo ad esempio
+- vuoi che il calendario sia centrato in mezzo alla pagina e sia in un container con una certa larghezza massima
+- vuoi mettere un menu, o un footer, o qualche elemento di contorno
+- vuoi mettere un header e del testo che spiega come usare il calendario
+- vuoi aprire un modale di conferma prima di cancellare gli eventi
+- vuoi reimplementare l'header del calendario per conto tuo
+
 Ogni chiamata API dovrà essere gestita tramite react-query.
 
 
