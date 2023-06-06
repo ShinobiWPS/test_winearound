@@ -1,11 +1,11 @@
 import styles from '@/styles/Home.module.css'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction'
+import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
+import { Grid, Typography } from '@mui/material'
 
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
-import Image from 'next/image'
 import { useRef } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -15,17 +15,14 @@ export default function Home() {
 
   const events = [
     { title: 'event 1', date: new Date() },
-    { title: 'event 2', date: '2023-06-06' },
+    { title: 'event 2', date: '2023-06-05' },
   ]
   const headerToolbar = {
     left: 'myCustomButton',
     center: 'title',
   }
-  const handleDateClick = (arg: DateClickArg) => {
-    console.log('handleDateClick arg:', arg)
-  }
   const handleEventClick = (arg: EventClickArg) => {
-    console.log('handleEventClick arg:', arg)
+    if (arg.jsEvent.shiftKey) arg.event.remove()
   }
   const handleEventAdd = (eventAddArg: EventAddArg) => {
     eventAddArg.revert()
@@ -61,104 +58,49 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
-
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <FullCalendar
-            ref={calendarRef}
-            events={events}
-            plugins={[dayGridPlugin, interactionPlugin]}
-            initialView="dayGridMonth"
-            editable={true}
-            selectable={true}
-            nowIndicator={true}
-            headerToolbar={headerToolbar}
-            customButtons={customButtons}
-            dateClick={handleDateClick}
-            eventClick={handleEventClick}
-            eventAdd={handleEventAdd}
-          />
-        </div>
+      <header>
+        <Typography variant="h3" gutterBottom align="center">
+          Calendario Eventi
+        </Typography>
+      </header>
+      <main>
+        <Grid container spacing={2} justifyContent={'center'}>
+          <Grid item>
+            <FullCalendar
+              ref={calendarRef}
+              events={events}
+              plugins={[dayGridPlugin, interactionPlugin]}
+              initialView="dayGridMonth"
+              editable={true}
+              selectable={true}
+              nowIndicator={true}
+              headerToolbar={headerToolbar}
+              customButtons={customButtons}
+              eventClick={handleEventClick}
+              eventAdd={handleEventAdd}
+            />
+          </Grid>
+        </Grid>
 
         <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
+          <a href="#" className={styles.card}>
+            <h2>Events</h2>
+            <p>Find in-depth information about nothing.</p>
           </a>
 
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
+          <a href="" className={styles.card}>
+            <h2>Times</h2>
+            <p>Learn about something!!!</p>
           </a>
 
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
+          <a href="#" className={styles.card}>
+            <h2>Dates</h2>
+            <p>Discover anything you want.</p>
           </a>
 
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
+          <a href="#" className={styles.card}>
+            <h2>Calendars</h2>
+            <p>Calendars, everywhere!.</p>
           </a>
         </div>
       </main>
