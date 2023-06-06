@@ -2,16 +2,57 @@ import styles from '@/styles/Home.module.css'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin, { DateClickArg } from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
+
 import { Inter } from 'next/font/google'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRef } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
-  const handleDateClick = (arg: DateClickArg) => {
-    console.log(arg)
+  const calendarRef = useRef<React.Ref>()
+
+  const events = [
+    { title: 'event 1', date: new Date() },
+    { title: 'event 2', date: '2023-06-06' },
+  ]
+  const headerToolbar = {
+    left: 'myCustomButton',
+    center: 'title',
   }
+  const handleDateClick = (arg: DateClickArg) => {
+    console.log('handleDateClick arg:', arg)
+  }
+  const handleEventClick = (arg: EventClickArg) => {
+    console.log('handleEventClick arg:', arg)
+  }
+  const handleEventAdd = (eventAddArg: EventAddArg) => {
+    eventAddArg.revert()
+  }
+  const customButtons = {
+    myCustomButton: {
+      text: 'Crea evento',
+      click: (arg) => {
+        console.log('arg:', arg)
+        const dateStr = prompt('Enter a date in YYYY-MM-DD format')
+        const date = new Date(dateStr + 'T00:00:00') // will be in local time
+
+        if (!isNaN(date.valueOf())) {
+          // valid?
+          const calendarApi = calendarRef.current.getApi()
+          calendarApi.addEvent({
+            title: 'dynamic event',
+            start: date,
+            allDay: true,
+          })
+        } else {
+          alert('Invalid date.')
+        }
+      },
+    },
+  }
+
   return (
     <>
       <Head>
@@ -47,28 +88,18 @@ export default function Home() {
 
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <FullCalendar
+            ref={calendarRef}
+            events={events}
             plugins={[dayGridPlugin, interactionPlugin]}
             initialView="dayGridMonth"
-            dateClick={handleDateClick}
-            events={[
-              { title: 'event 1', date: new Date() },
-              { title: 'event 2', date: '2023-06-06' },
-            ]}
             editable={true}
             selectable={true}
             nowIndicator={true}
-            customButtons={{
-              myCustomButton: {
-                text: 'Crea evento',
-                click: () => {
-                  alert('Test button!')
-                },
-              },
-            }}
-            headerToolbar={{
-              left: 'myCustomButton',
-              center: 'title',
-            }}
+            headerToolbar={headerToolbar}
+            customButtons={customButtons}
+            dateClick={handleDateClick}
+            eventClick={handleEventClick}
+            eventAdd={handleEventAdd}
           />
         </div>
 
