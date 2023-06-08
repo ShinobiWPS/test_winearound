@@ -36,22 +36,7 @@ export default function Home() {
   const handleEventAdd = (eventAddArg: EventAddArg) => {
     eventAddArg.revert()
   }
-  const createEvent = () => {
-    const dateStr = prompt('Enter a date in YYYY-MM-DD format')
-    const date = new Date(dateStr + 'T00:00:00') // local time
 
-    if (!isNaN(date.valueOf())) {
-      // valid?
-      const calendarApi = calendarRef.current.getApi()
-      calendarApi.addEvent({
-        title: 'Nuovo',
-        start: date,
-        allDay: true,
-      })
-    } else {
-      alert('Invalid date.')
-    }
-  }
   const customButtons = {
     myCustomButton: {
       text: 'Crea evento',
@@ -169,11 +154,13 @@ export default function Home() {
           </Container>
         </Box>
       </Box>
-      <DialogEventsCreate
-        isOpen={isVisible}
-        onClose={() => isVisibleSet(false)}
-        onCreation={createEvent}
-      />
+      {/* qui avrei usato un Portal che su next richiede un filo di codice in piu */}
+      {isVisible && (
+        <DialogEventsCreate
+          onClose={() => isVisibleSet(false)}
+          calendarRef={calendarRef}
+        />
+      )}
     </>
   )
 }
