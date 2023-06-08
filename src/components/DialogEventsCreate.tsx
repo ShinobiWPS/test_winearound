@@ -7,12 +7,20 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material'
+import { useState } from 'react'
 
 export const DialogEventsCreate = ({ onClose, calendarRef }) => {
-  const createEvent = (arg) => {
+  const [eventDate, eventDateSet] = useState('')
+  const handleDateChange = (event) => {
+    eventDateSet(event.target.value)
+  }
+  const createEvent = () => {
     debugger
-    const dateStr = prompt('Enter a date in YYYY-MM-DD format')
-    const date = new Date(dateStr + 'T00:00:00') // local time
+    const inputDate = eventDate // Store the input date value
+    const [year, month, day] = inputDate.split('-')
+    const formattedDate = `${year}-${month}-${day}` // Convert to YYYY-MM-DD format
+
+    const date = new Date(formattedDate + 'T00:00:00') // local time
 
     if (!isNaN(date.valueOf())) {
       // valid?
@@ -22,15 +30,18 @@ export const DialogEventsCreate = ({ onClose, calendarRef }) => {
         start: date,
         allDay: true,
       })
+      onClose()
     } else {
-      alert('Invalid date.')
+      alert('Formato della data non valido')
     }
   }
   return (
     <Dialog open={true} onClose={onClose}>
       <DialogTitle>Creazione evento</DialogTitle>
       <DialogContent>
-        <DialogContentText>Inserisci la data dell'evento</DialogContentText>
+        <DialogContentText>
+          Inserisci la data dell&apos;evento
+        </DialogContentText>
         <TextField
           autoFocus
           margin="dense"
@@ -38,6 +49,8 @@ export const DialogEventsCreate = ({ onClose, calendarRef }) => {
           type="date"
           fullWidth
           variant="standard"
+          value={eventDate}
+          onChange={handleDateChange}
         />
       </DialogContent>
       <DialogActions>
