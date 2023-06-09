@@ -9,31 +9,37 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-export const DialogEventsCreate = ({ onClose, calendarRef }) => {
+export const DialogEventsCreate = ({
+  onClose,
+  updateEvents,
+  eventsList,
+  calendarRef,
+}) => {
   const [eventDate, eventDateSet] = useState('')
   const handleDateChange = (event) => {
     eventDateSet(event.target.value)
   }
   const createEvent = () => {
     debugger
-    const inputDate = eventDate // Store the input date value
-    const [year, month, day] = inputDate.split('-')
-    const formattedDate = `${year}-${month}-${day}` // Convert to YYYY-MM-DD format
+    /* const inputDate = eventDate // Store the input date value */
+    /* const [year, month, day] = inputDate.split('-')
+    const formattedDate = `${year}-${month}-${day}` // Convert to YYYY-MM-DD format */
 
-    const date = new Date(formattedDate + 'T00:00:00') // local time
-
-    if (!isNaN(date.valueOf())) {
-      // valid?
-      const calendarApi = calendarRef.current.getApi()
-      calendarApi.addEvent({
-        title: 'Nuovo',
-        start: date,
+    /* const calendarApi = calendarRef.current.getApi() */
+    /* calendarApi.addEvent({
+      title: 'New evento',
+      start: eventDate,
+      allDay: true,
+    }) */
+    updateEvents([
+      ...eventsList,
+      {
+        title: 'New evento',
+        start: eventDate,
         allDay: true,
-      })
-      onClose()
-    } else {
-      alert('Formato della data non valido')
-    }
+      },
+    ])
+    onClose()
   }
   return (
     <Dialog open={true} onClose={onClose}>

@@ -15,17 +15,18 @@ import {
 } from '@mui/material'
 
 import Head from 'next/head'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 export default function Home() {
-  const calendarRef = useRef<React.Ref>()
+  const calendarRef = useRef()
 
   const [isVisible, isVisibleSet] = useModal()
-
-  const events = [
-    { title: 'event 1', date: new Date() },
-    { title: 'event 2', date: '2023-06-05' },
+  const initialEvents = [
+    { title: 'Evento 1', date: '2023-06-05' },
+    { title: 'Evento 2', date: '2023-06-05' },
   ]
+  const [events, eventsSet] = useState(initialEvents)
+
   const headerToolbar = {
     left: 'myCustomButton',
     center: 'title',
@@ -158,6 +159,8 @@ export default function Home() {
       {isVisible && (
         <DialogEventsCreate
           onClose={() => isVisibleSet(false)}
+          updateEvents={eventsSet}
+          eventsList={events}
           calendarRef={calendarRef}
         />
       )}
