@@ -9,28 +9,12 @@ import {
 } from '@mui/material'
 import { useState } from 'react'
 
-export const DialogEventsCreate = ({
-  onClose,
-  updateEvents,
-  eventsList,
-  calendarRef,
-}) => {
+export const DialogEventsCreate = ({ onClose, updateEvents, eventsList }) => {
   const [eventDate, eventDateSet] = useState('')
   const handleDateChange = (event) => {
     eventDateSet(event.target.value)
   }
   const createEvent = () => {
-    debugger
-    /* const inputDate = eventDate // Store the input date value */
-    /* const [year, month, day] = inputDate.split('-')
-    const formattedDate = `${year}-${month}-${day}` // Convert to YYYY-MM-DD format */
-
-    /* const calendarApi = calendarRef.current.getApi() */
-    /* calendarApi.addEvent({
-      title: 'New evento',
-      start: eventDate,
-      allDay: true,
-    }) */
     updateEvents([
       ...eventsList,
       {
