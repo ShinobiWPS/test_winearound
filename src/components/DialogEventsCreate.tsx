@@ -7,17 +7,17 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material'
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 
 export type DialogEventsCreateProps = {
   onClose: () => void
-  updateEvents: Dispatch<SetStateAction<Event[]>>
+  addEvent: (newEvents: Event[]) => void
   eventsList: Event[]
 }
 
 export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
   onClose,
-  updateEvents,
+  addEvent,
   eventsList,
 }) => {
   const [eventDate, eventDateSet] = useState('')
@@ -25,16 +25,15 @@ export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
     eventDateSet(event.target.value)
   }
   const createEvent = () => {
-    updateEvents([
-      ...eventsList,
-      {
-        title: 'New evento',
-        start: eventDate,
-        allDay: true,
-      },
-    ])
+    const newEvent = {
+      title: 'New evento',
+      date: eventDate,
+    }
+    const updatedEvents = [...eventsList, newEvent]
+    addEvent(updatedEvents)
     onClose()
   }
+
   return (
     <Dialog open={true} onClose={onClose}>
       <DialogTitle>Creazione evento</DialogTitle>

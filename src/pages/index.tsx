@@ -3,29 +3,11 @@ import Calendar from '@/components/Calendar'
 import { DialogEventsCreate } from '@/components/DialogEventsCreate'
 import Footer from '@/components/Footer'
 import useModal from '@/hooks/useModal'
-import { EventAddArg, EventClickArg } from '@fullcalendar/core'
+import { EventClickArg } from '@fullcalendar/core'
 import { Box, Typography } from '@mui/material'
 import { useMutation, useQuery } from '@tanstack/react-query'
-import events from 'events'
 import Head from 'next/head'
 
-type Event = {
-  title: string
-  date: string
-}
-
-/* export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  const response = await fetch('http://localhost:3000/api/events/getEvents')
-  const data = await response.json()
-  const events = data.events
-
-  return {
-    props: {
-      initialEvents: events,
-    },
-  }
-} */
-/* ci sarebbe una separazione tra URL prod e dev con delle costanti da fare */
 export const getServerSideProps = async () => {
   const initialEventsData = await fetchEvents()
   return {
@@ -41,7 +23,6 @@ export const Home = ({ initialEventsData }) => {
   const { data: eventsData, refetch } = useQuery(['events'], fetchEvents, {
     initialData: initialEventsData,
   })
-  console.log('eventsData:', eventsData)
 
   const updateEventsMutation = useMutation(updateEvents, {
     onSuccess: () => {
@@ -55,19 +36,10 @@ export const Home = ({ initialEventsData }) => {
   }
   const handleEventClick = (arg: EventClickArg) => {
     if (arg.jsEvent.shiftKey) {
+      /* ci sarebbe il revert() ma credo sia meglio un approccio di immutabilita */
       const updatedEvents = eventsData.filter((event) => event !== arg.event)
       updateEventsMutation.mutate(updatedEvents)
     }
-  }
-
-  const eventAdd = (eventAddArg: EventAddArg) => {
-    const newEvent = {
-      title: 'New Event',
-      date: eventAddArg.event.startStr,
-    }
-    const updatedEvents = [...eventsData, newEvent]
-    updateEventsMutation.mutate(updatedEvents)
-    /* eventAddArg.revert() */
   }
 
   const customButtons = {
@@ -113,8 +85,8 @@ export const Home = ({ initialEventsData }) => {
       {isVisible && (
         <DialogEventsCreate
           onClose={() => isVisibleSet(false)}
-          updateEvents={eventsSet}
-          eventsList={events}
+          addEvent={updateEventsMutation.mutate}
+          eventsList={eventsData}
         />
       )}
     </>

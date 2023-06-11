@@ -1,7 +1,9 @@
 import { Event } from '@/types/event'
+import { EventClickArg } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import FullCalendar from '@fullcalendar/react'
+import { Grid } from '@mui/material'
 
 type CalendarProps = {
   events: Event[]
@@ -10,12 +12,17 @@ type CalendarProps = {
   eventClick: (arg: EventClickArg) => void
 }
 
-export default function CalendarReact.FC<CalendarProps>({ events, headerToolbar, customButtons, eventClick }) {
+const Calendar: React.FC<CalendarProps> = ({
+  events,
+  headerToolbar,
+  customButtons,
+  eventClick,
+}) => {
   return (
     <Grid container spacing={2} justifyContent={'center'}>
       <Grid item>
         <FullCalendar
-          events={eventsData}
+          events={events}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           editable={true}
@@ -23,9 +30,10 @@ export default function CalendarReact.FC<CalendarProps>({ events, headerToolbar,
           nowIndicator={true}
           headerToolbar={headerToolbar}
           customButtons={customButtons}
-          eventClick={handleEventClick}
+          eventClick={eventClick}
         />
       </Grid>
     </Grid>
   )
 }
+export default Calendar
