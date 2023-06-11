@@ -13,19 +13,21 @@ import {
   ListItem,
   Typography,
 } from '@mui/material'
-
 import Head from 'next/head'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
+
+type Event = {
+  title: string
+  date: string
+}
 
 export default function Home() {
-  const calendarRef = useRef()
-
   const [isVisible, isVisibleSet] = useModal()
   const initialEvents = [
     { title: 'Evento 1', date: '2023-06-05' },
     { title: 'Evento 2', date: '2023-06-05' },
   ]
-  const [events, eventsSet] = useState(initialEvents)
+  const [events, eventsSet] = useState<Event[]>(initialEvents)
 
   const headerToolbar = {
     left: 'myCustomButton',

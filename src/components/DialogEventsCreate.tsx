@@ -7,9 +7,19 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 
-export const DialogEventsCreate = ({ onClose, updateEvents, eventsList }) => {
+export type DialogEventsCreateProps = {
+  onClose: () => void
+  updateEvents: Dispatch<SetStateAction<Event[]>>
+  eventsList: Event[]
+}
+
+export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
+  onClose,
+  updateEvents,
+  eventsList,
+}) => {
   const [eventDate, eventDateSet] = useState('')
   const handleDateChange = (event) => {
     eventDateSet(event.target.value)
