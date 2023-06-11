@@ -14,19 +14,32 @@ import {
   Typography,
 } from '@mui/material'
 import Head from 'next/head'
+import { GetServerSideProps } from 'next/types'
 import { useState } from 'react'
 
 type Event = {
   title: string
   date: string
 }
+type HomeProps = {
+  initialEvents: Event[]
+}
 
-export default function Home() {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  const response = await fetch('http://localhost:3000/api/events/getEvents')
+  const data = await response.json()
+  const events = data.events
+
+  return {
+    props: {
+      initialEvents: events,
+    },
+  }
+}
+
+export default function Home({ initialEvents }) {
   const [isVisible, isVisibleSet] = useModal()
-  const initialEvents = [
-    { title: 'Evento 1', date: '2023-06-05' },
-    { title: 'Evento 2', date: '2023-06-05' },
-  ]
+
   const [events, eventsSet] = useState<Event[]>(initialEvents)
 
   const headerToolbar = {
