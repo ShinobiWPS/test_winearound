@@ -71,7 +71,6 @@ export default function Home() {
           <Grid container spacing={2} justifyContent={'center'}>
             <Grid item>
               <FullCalendar
-                ref={calendarRef}
                 events={events}
                 plugins={[dayGridPlugin, interactionPlugin]}
                 initialView="dayGridMonth"
@@ -162,7 +161,6 @@ export default function Home() {
           onClose={() => isVisibleSet(false)}
           updateEvents={eventsSet}
           eventsList={events}
-          calendarRef={calendarRef}
         />
       )}
     </>
