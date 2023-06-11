@@ -26,6 +26,7 @@ type HomeProps = {
 }
 
 export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
+  /* ci sarebbe una separazione tra URL prod e dev con delle costanti */
   const response = await fetch('http://localhost:3000/api/events/getEvents')
   const data = await response.json()
   const events = data.events
@@ -50,7 +51,7 @@ export default function Home({ initialEvents }) {
     if (arg.jsEvent.shiftKey) arg.event.remove()
   }
   const handleEventAdd = (eventAddArg: EventAddArg) => {
-    eventAddArg.revert()
+    /* eventAddArg.revert() */
   }
 
   const customButtons = {

@@ -2,6 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 Consegna:
 Dovrai impostare un repository da poi condividere con noi contenente un applicativo React+TypeScript che utilizzi i seguenti:
+
 - next v13 (https://nextjs.org)
 - @mui/material v5 (https://mui.com)
 - @fullcalendar/react v6 (https://fullcalendar.io/docs/react)
@@ -9,17 +10,20 @@ Dovrai impostare un repository da poi condividere con noi contenente un applicat
 
 Questo applicativo dovrà leggere una lista di eventi tramite un endpoint API di next e disegnarli sul calendario.
 
-Dovrai permettere all'utente di spostare gli eventi interagendo con il calendario, chiamando l'API per aggiornare i dati temporali dell'evento spostato.
-Dovrai permettere all'utente di creare un nuovo evento da aggiungere al calendario (chiamando l'API per persisterlo)
-Dovrei permettere all'utente eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
+Dovrai permettere all'utente di:
+
+- spostare gli eventi interagendo con il calendario, chiamando l'API per aggiornare i dati temporali dell'evento spostato.
+- creare un nuovo evento da aggiungere al calendario (chiamando l'API per persisterlo)
+- eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
 
 La persistenza degli eventi del calendario lato server la puoi gestire come preferisci, vale tutto.(incluso `fs` per operare su un semplice file su filesystem).
 
 Ogni elemento grafico in interfaccia (calendario escluso) dovrà essere di MUI.
 esempi di cosa potrebbe comparire con MUI:
+
 - quando premi crea evento dovrai decidere il nome dell'evento e la data in cui inserirlo ad esempio
 - [x]vuoi che il calendario sia centrato in mezzo alla pagina e sia in un container con una certa larghezza massima
-- []vuoi mettere un menu, o un footer, o qualche elemento di contorno
+- [x]vuoi mettere un menu, o un footer, o qualche elemento di contorno
 - vuoi mettere un header e del testo che spiega come usare il calendario
 - vuoi aprire un modale di conferma prima di cancellare gli eventi
 - vuoi reimplementare l'header del calendario per conto tuo
