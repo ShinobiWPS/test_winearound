@@ -53,6 +53,7 @@ export default function Home() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           alignItems: 'center',
+          height: '100vh',
         }}
       >
         <Head>
