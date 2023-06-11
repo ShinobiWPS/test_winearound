@@ -1,32 +1,20 @@
+import { fetchEvents, updateEvents } from '@/api-helpers/events'
+import Calendar from '@/components/Calendar'
 import { DialogEventsCreate } from '@/components/DialogEventsCreate'
+import Footer from '@/components/Footer'
 import useModal from '@/hooks/useModal'
 import { EventAddArg, EventClickArg } from '@fullcalendar/core'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import interactionPlugin from '@fullcalendar/interaction'
-import FullCalendar from '@fullcalendar/react'
-import {
-  Box,
-  Container,
-  Grid,
-  Link,
-  List,
-  ListItem,
-  Typography,
-} from '@mui/material'
+import { Box, Typography } from '@mui/material'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import events from 'events'
 import Head from 'next/head'
-import { GetServerSideProps } from 'next/types'
-import { useState } from 'react'
 
 type Event = {
   title: string
   date: string
 }
-type HomeProps = {
-  initialEvents: Event[]
-}
 
-export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
-  /* ci sarebbe una separazione tra URL prod e dev con delle costanti */
+/* export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   const response = await fetch('http://localhost:3000/api/events/getEvents')
   const data = await response.json()
   const events = data.events
@@ -36,21 +24,49 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
       initialEvents: events,
     },
   }
+} */
+/* ci sarebbe una separazione tra URL prod e dev con delle costanti da fare */
+export const getServerSideProps = async () => {
+  const initialEventsData = await fetchEvents()
+  return {
+    props: {
+      initialEventsData,
+    },
+  }
 }
 
-export default function Home({ initialEvents }) {
+export const Home = ({ initialEventsData }) => {
   const [isVisible, isVisibleSet] = useModal()
 
-  const [events, eventsSet] = useState<Event[]>(initialEvents)
+  const { data: eventsData, refetch } = useQuery(['events'], fetchEvents, {
+    initialData: initialEventsData,
+  })
+  console.log('eventsData:', eventsData)
+
+  const updateEventsMutation = useMutation(updateEvents, {
+    onSuccess: () => {
+      refetch()
+    },
+  })
 
   const headerToolbar = {
     left: 'myCustomButton',
     center: 'title',
   }
   const handleEventClick = (arg: EventClickArg) => {
-    if (arg.jsEvent.shiftKey) arg.event.remove()
+    if (arg.jsEvent.shiftKey) {
+      const updatedEvents = eventsData.filter((event) => event !== arg.event)
+      updateEventsMutation.mutate(updatedEvents)
+    }
   }
-  const handleEventAdd = (eventAddArg: EventAddArg) => {
+
+  const eventAdd = (eventAddArg: EventAddArg) => {
+    const newEvent = {
+      title: 'New Event',
+      date: eventAddArg.event.startStr,
+    }
+    const updatedEvents = [...eventsData, newEvent]
+    updateEventsMutation.mutate(updatedEvents)
     /* eventAddArg.revert() */
   }
 
@@ -84,92 +100,14 @@ export default function Home({ initialEvents }) {
           </Typography>
         </header>
         <main>
-          <Grid container spacing={2} justifyContent={'center'}>
-            <Grid item>
-              <FullCalendar
-                events={events}
-                plugins={[dayGridPlugin, interactionPlugin]}
-                initialView="dayGridMonth"
-                editable={true}
-                selectable={true}
-                nowIndicator={true}
-                headerToolbar={headerToolbar}
-                customButtons={customButtons}
-                eventClick={handleEventClick}
-                eventAdd={handleEventAdd}
-              />
-            </Grid>
-          </Grid>
+          <Calendar
+            events={eventsData}
+            headerToolbar={headerToolbar}
+            customButtons={customButtons}
+            eventClick={handleEventClick}
+          />
         </main>
-        <Box component="footer" sx={{ bgcolor: '#f0f0f0', py: 2 }}>
-          <Container maxWidth="lg">
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6} md={3}>
-                <Typography variant="h6">About Us</Typography>
-                <Typography variant="body2">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-                  sagittis tellus vitae neque tempus, sed fringilla tellus
-                  tincidunt.
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Typography variant="h6">Contact</Typography>
-                <Typography variant="body2">
-                  Address: 123 Main St, City, Country
-                  <br />
-                  Phone: +1 234 567 890
-                  <br />
-                  Email: info@example.com
-                </Typography>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Typography variant="h6">Links</Typography>
-                <List>
-                  <ListItem>
-                    <Link href="/" underline="hover">
-                      Home
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link href="/about" underline="hover">
-                      About
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link href="/services" underline="hover">
-                      Services
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link href="/contact" underline="hover">
-                      Contact
-                    </Link>
-                  </ListItem>
-                </List>
-              </Grid>
-              <Grid item xs={12} sm={6} md={3}>
-                <Typography variant="h6">Follow Us</Typography>
-                <List>
-                  <ListItem>
-                    <Link href="https://twitter.com" underline="hover">
-                      Twitter
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link href="https://facebook.com" underline="hover">
-                      Facebook
-                    </Link>
-                  </ListItem>
-                  <ListItem>
-                    <Link href="https://instagram.com" underline="hover">
-                      Instagram
-                    </Link>
-                  </ListItem>
-                </List>
-              </Grid>
-            </Grid>
-          </Container>
-        </Box>
+        <Footer />
       </Box>
       {/* qui avrei usato un Portal che su next richiede un filo di codice in piu */}
       {isVisible && (
@@ -182,3 +120,5 @@ export default function Home({ initialEvents }) {
     </>
   )
 }
+
+export default Home
