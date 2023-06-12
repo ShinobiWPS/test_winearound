@@ -22,15 +22,29 @@ export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
   addEvent,
   eventsList,
 }) => {
-  const [eventDate, eventDateSet] = useState('')
+  const [eventCreationData, eventCreationDataSet] = useState<CalendarEvent>({
+    id: '',
+    title: '',
+    date: '',
+  })
   const handleDateChange = (event) => {
-    eventDateSet(event.target.value)
+    eventCreationDataSet((prevState) => ({
+      ...prevState,
+      date: event.target.value,
+    }))
+  }
+  const handleTitleChange = (event) => {
+    eventCreationDataSet((prevState) => ({
+      ...prevState,
+      title: event.target.value,
+    }))
   }
   const createEvent = () => {
     const newEvent = {
+      /* avrei usato essendo nativo ma solo in https: crypto.randomUUID(), */
       id: uuidv4(),
-      title: 'New evento',
-      date: eventDate,
+      title: eventCreationData.title,
+      date: eventCreationData.date,
     }
     const updatedEvents = [...eventsList, newEvent]
     addEvent(updatedEvents)
@@ -42,16 +56,28 @@ export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
       <DialogTitle>Creazione evento</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          Inserisci la data dell&apos;evento
+          Inserisci il titolo dell&apos;evento
         </DialogContentText>
         <TextField
           autoFocus
+          margin="dense"
+          id="event-title"
+          type="text"
+          fullWidth
+          variant="standard"
+          value={eventCreationData.title}
+          onChange={handleTitleChange}
+        />
+        <DialogContentText>
+          Inserisci la data dell&apos;evento
+        </DialogContentText>
+        <TextField
           margin="dense"
           id="event-date"
           type="date"
           fullWidth
           variant="standard"
-          value={eventDate}
+          value={eventCreationData.date}
           onChange={handleDateChange}
         />
       </DialogContent>

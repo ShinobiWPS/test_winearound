@@ -14,7 +14,7 @@ Dovrai permettere all'utente di:
 
 - spostare gli eventi interagendo con il calendario, chiamando l'API per aggiornare i dati temporali dell'evento spostato.
 - [x]creare un nuovo evento da aggiungere al calendario (chiamando l'API per persisterlo)
-- []eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
+- [x]eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
 
 La persistenza degli eventi del calendario lato server la puoi gestire come preferisci, vale tutto.(incluso `fs` per operare su un semplice file su filesystem).
 
