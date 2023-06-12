@@ -1,20 +1,16 @@
+import { CalendarEvent } from '@/types-shared/CalendarEvent';
 import fs from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import path from 'path';
 
 const EVENTS_FILE = path.join(process.cwd(), 'eventsDB.json');
 
-type Event = {
-  title: string;
-  date: string;
-};
-
 type UpdateEventsRequest = {
-  events: Event[];
+  events: CalendarEvent[];
 };
 
 type UpdateEventsResponse = {
-  events: Event[];
+  events: CalendarEvent[];
 };
 
 export default function updateEvents(

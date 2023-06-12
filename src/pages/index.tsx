@@ -17,7 +17,7 @@ export const getServerSideProps = async () => {
   }
 }
 
-export const Home = ({ initialEventsData }) => {
+export const Home = ({ initialEventsData: CalendarEvent[]  }) => {
   const [isVisible, isVisibleSet] = useModal()
 
   const { data: eventsData, refetch } = useQuery(['events'], fetchEvents, {
