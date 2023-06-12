@@ -1,4 +1,4 @@
-import { Event } from '@/types/event'
+import { CalendarEvent } from '@/types-shared/CalendarEvent'
 import { EventClickArg } from '@fullcalendar/core'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -6,7 +6,7 @@ import FullCalendar from '@fullcalendar/react'
 import { Grid } from '@mui/material'
 
 type CalendarProps = {
-  events: Event[]
+  events: CalendarEvent[]
   headerToolbar: object
   customButtons: object
   eventClick: (arg: EventClickArg) => void

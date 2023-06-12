@@ -1,3 +1,4 @@
+import { CalendarEvent } from '@/types-shared/CalendarEvent'
 import {
   Button,
   Dialog,
@@ -8,11 +9,12 @@ import {
   TextField,
 } from '@mui/material'
 import { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 
 export type DialogEventsCreateProps = {
   onClose: () => void
-  addEvent: (newEvents: Event[]) => void
-  eventsList: Event[]
+  addEvent: (newEvents: CalendarEvent[]) => void
+  eventsList: CalendarEvent[]
 }
 
 export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
@@ -26,6 +28,7 @@ export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
   }
   const createEvent = () => {
     const newEvent = {
+      id: uuidv4(),
       title: 'New evento',
       date: eventDate,
     }

@@ -1,7 +1,6 @@
 export const fetchEvents = async () => {
   const response = await fetch('http://localhost:3000/api/events/getEvents');
   const data = await response.json();
-  console.log('data.events:', data.events)
   return data.events;
 };
 

@@ -37,7 +37,9 @@ export const Home = ({ initialEventsData }) => {
   const handleEventClick = (arg: EventClickArg) => {
     if (arg.jsEvent.shiftKey) {
       /* ci sarebbe il revert() ma credo sia meglio un approccio di immutabilita */
-      const updatedEvents = eventsData.filter((event) => event !== arg.event)
+      const updatedEvents = eventsData.filter(
+        (event) => event.id !== arg.event.id
+      )
       updateEventsMutation.mutate(updatedEvents)
     }
   }
