@@ -13,8 +13,8 @@ Questo applicativo dovrà leggere una lista di eventi tramite un endpoint API di
 Dovrai permettere all'utente di:
 
 - spostare gli eventi interagendo con il calendario, chiamando l'API per aggiornare i dati temporali dell'evento spostato.
-- [x]creare un nuovo evento da aggiungere al calendario (chiamando l'API per persisterlo)
-- [x]eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
+- creare un nuovo evento da aggiungere al calendario (chiamando l'API per persisterlo)
+- eliminare gli eventi dal calendario cliccandoci sopra mentre preme "shift" (hint: leggi con attenzione le specifiche dell'evento click), chiamando l'API per rimuoverlo.
 
 La persistenza degli eventi del calendario lato server la puoi gestire come preferisci, vale tutto.(incluso `fs` per operare su un semplice file su filesystem).
 
@@ -22,8 +22,8 @@ Ogni elemento grafico in interfaccia (calendario escluso) dovrà essere di MUI.
 esempi di cosa potrebbe comparire con MUI:
 
 - quando premi crea evento dovrai decidere il nome dell'evento e la data in cui inserirlo ad esempio
-- [x]vuoi che il calendario sia centrato in mezzo alla pagina e sia in un container con una certa larghezza massima
-- [x]vuoi mettere un menu, o un footer, o qualche elemento di contorno
+- vuoi che il calendario sia centrato in mezzo alla pagina e sia in un container con una certa larghezza massima
+- vuoi mettere un menu, o un footer, o qualche elemento di contorno
 - vuoi mettere un header e del testo che spiega come usare il calendario
 - vuoi aprire un modale di conferma prima di cancellare gli eventi
 - vuoi reimplementare l'header del calendario per conto tuo

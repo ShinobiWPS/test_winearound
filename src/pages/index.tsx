@@ -3,7 +3,8 @@ import Calendar from '@/components/Calendar'
 import { DialogEventsCreate } from '@/components/DialogEventsCreate'
 import Footer from '@/components/Footer'
 import useModal from '@/hooks/useModal'
-import { EventClickArg } from '@fullcalendar/core'
+import { CalendarEvent } from '@/types-shared/CalendarEvent'
+import { CustomButtonInput, EventClickArg } from '@fullcalendar/core'
 import { Box, Typography } from '@mui/material'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import Head from 'next/head'
@@ -17,9 +18,13 @@ export const getServerSideProps = async () => {
   }
 }
 
-export const Home = ({ initialEventsData: CalendarEvent[]  }) => {
+const Home = ({
+  initialEventsData,
+}: {
+  initialEventsData: CalendarEvent[]
+}) => {
   const [isVisible, isVisibleSet] = useModal()
-
+  const hideDialog = () => 
   const { data: eventsData, refetch } = useQuery(['events'], fetchEvents, {
     initialData: initialEventsData,
   })
@@ -38,13 +43,12 @@ export const Home = ({ initialEventsData: CalendarEvent[]  }) => {
     if (arg.jsEvent.shiftKey) {
       /* ci sarebbe il revert() ma credo sia meglio un approccio di immutabilita */
       const updatedEvents = eventsData.filter(
-        (event) => event.id !== arg.event.id
+        (event: CalendarEvent) => event.id !== arg.event.id
       )
       updateEventsMutation.mutate(updatedEvents)
     }
   }
-
-  const customButtons = {
+  const customButtons: Record<string, CustomButtonInput> = {
     myCustomButton: {
       text: 'Crea evento',
       click: () => isVisibleSet(false),

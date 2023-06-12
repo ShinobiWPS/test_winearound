@@ -8,7 +8,7 @@ import {
   DialogTitle,
   TextField,
 } from '@mui/material'
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 
 export type DialogEventsCreateProps = {
@@ -27,13 +27,13 @@ export const DialogEventsCreate: React.FC<DialogEventsCreateProps> = ({
     title: '',
     date: '',
   })
-  const handleDateChange = (event) => {
+  const handleDateChange = (event: ChangeEvent<HTMLInputElement>) => {
     eventCreationDataSet((prevState) => ({
       ...prevState,
       date: event.target.value,
     }))
   }
-  const handleTitleChange = (event) => {
+  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     eventCreationDataSet((prevState) => ({
       ...prevState,
       title: event.target.value,
