@@ -24,7 +24,7 @@ const Home = ({
   initialEventsData: CalendarEvent[]
 }) => {
   const [isVisible, isVisibleSet] = useModal()
-  const hideDialog = () => 
+
   const { data: eventsData, refetch } = useQuery(['events'], fetchEvents, {
     initialData: initialEventsData,
   })
